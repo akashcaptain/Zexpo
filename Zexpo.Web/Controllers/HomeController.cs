@@ -15,6 +15,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        _logger.LogInformation("Site hit today at {DT}",DateTime.UtcNow.ToLongTimeString());
         return View();
     }
 
