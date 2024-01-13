@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Zexpo.Web.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,20 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.Use(async (context, next) =>
+{
+   /* context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+    context.Response.Headers.Add("X-XSS-Protection","1;mode=block");
+    context.Response.Headers.Add("Referrer-Policy","no-referrer");
+    context.Response.Headers.Add("Content-Security-Policy", "default-src 'self';");
+    context.Response.Headers.Add("x-frame-options", "Deny");
+
+    context.Response.Headers.Remove("X-Power-By");
+    context.Response.Headers.Remove("Server");*/
+
+    await next();
+});
 
 app.MapControllerRoute(
     name: "default",
